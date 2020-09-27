@@ -2,7 +2,8 @@ from population.genome import Genome
 from population.network import Network
 from time import time
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior() 
 import shutil, os
 import json
 
@@ -47,8 +48,9 @@ class Population(object):
         }
 
         if clear_old_saves:
-            shutil.rmtree('model') 
-            os.mkdir('model')
+            if os.path.exists('model') and os.path.isdir('model'):
+                shutil.rmtree('model') 
+                os.mkdir('model')
 
     def initial_pop(self):
         print(f"{'=' * self.load_bar_len}\ncreating genesis population")
